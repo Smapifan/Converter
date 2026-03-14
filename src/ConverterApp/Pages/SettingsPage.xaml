@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:ConverterApp.Models"
+             x:Class="ConverterApp.Pages.SettingsPage"
+             Title="Settings">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="24" Spacing="16">
+
+            <Label Text="Conversion Settings"
+                   FontSize="Title"
+                   FontAttributes="Bold" />
+
+            <!-- MVVM / Code-behind -->
+            <Border Padding="16" StrokeShape="RoundRectangle 8">
+                <VerticalStackLayout Spacing="12">
+                    <Label Text="Output Style" FontAttributes="Bold" FontSize="Subtitle" />
+
+                    <HorizontalStackLayout Spacing="8">
+                        <CheckBox x:Name="MvvmCheckBox" IsChecked="True" />
+                        <Label Text="Generate MVVM bindings (instead of code-behind)"
+                               VerticalOptions="Center" />
+                    </HorizontalStackLayout>
+
+                    <HorizontalStackLayout Spacing="8">
+                        <CheckBox x:Name="CommentsCheckBox" IsChecked="True" />
+                        <Label Text="Generate XML comments in XAML"
+                               VerticalOptions="Center" />
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Namespace -->
+            <Border Padding="16" StrokeShape="RoundRectangle 8">
+                <VerticalStackLayout Spacing="12">
+                    <Label Text="Generated Code" FontAttributes="Bold" FontSize="Subtitle" />
+
+                    <Label Text="App Namespace" />
+                    <Entry x:Name="NamespaceEntry"
+                           Placeholder="MyApp"
+                           Text="MyApp" />
+
+                    <Label Text="Target .NET Version" />
+                    <Picker x:Name="TargetFrameworkPicker"
+                            Title="Select .NET version">
+                        <Picker.Items>
+                            <x:String>net9.0</x:String>
+                            <x:String>net8.0</x:String>
+                        </Picker.Items>
+                    </Picker>
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- About -->
+            <Border Padding="16" StrokeShape="RoundRectangle 8">
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="About" FontAttributes="Bold" FontSize="Subtitle" />
+                    <Label Text="Converter v1.0" />
+                    <Label Text="Bidirectional conversion between HTML/CSS/JS, .NET MAUI XAML/C#, WinForms, and Unity C#." />
+                    <Label Text="Fully offline – no network required for conversion." />
+                    <Label Text="GitHub import requires an internet connection." />
+                </VerticalStackLayout>
+            </Border>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

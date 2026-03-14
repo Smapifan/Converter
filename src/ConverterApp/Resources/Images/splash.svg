@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300">
+  <rect width="300" height="300" fill="#512BD4"/>
+  <text x="150" y="165" font-family="sans-serif" font-size="80" font-weight="bold" text-anchor="middle" fill="white">C</text>
+  <text x="150" y="220" font-family="sans-serif" font-size="24" text-anchor="middle" fill="#DFD8F7">Converter</text>
+</svg>
