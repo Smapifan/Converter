@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:ConverterApp.ViewModels"
+             xmlns:models="clr-namespace:ConverterApp.Models"
+             x:Class="ConverterApp.Pages.MainPage"
+             Title="Converter">
+
+    <Grid RowDefinitions="Auto,*,Auto" ColumnDefinitions="*">
+
+        <!-- ── Toolbar ─────────────────────────────────────────────────── -->
+        <HorizontalStackLayout Grid.Row="0"
+                               Padding="12,8"
+                               Spacing="8"
+                               BackgroundColor="{StaticResource Primary}">
+
+            <!-- Mode picker -->
+            <Picker Title="Conversion Mode"
+                    ItemsSource="{Binding ConversionModes}"
+                    SelectedItem="{Binding SelectedMode}"
+                    MinimumWidthRequest="220"
+                    BackgroundColor="White"
+                    TextColor="Black" />
+
+            <!-- GitHub Import -->
+            <Entry Placeholder="https://github.com/owner/repo"
+                   Text="{Binding GitHubUrl}"
+                   MinimumWidthRequest="280"
+                   BackgroundColor="White"
+                   TextColor="Black" />
+            <Button Text="⬇ Import from GitHub"
+                    Command="{Binding ImportFromGitHubCommand}"
+                    BackgroundColor="{StaticResource Secondary}"
+                    TextColor="White" />
+
+            <!-- File operations -->
+            <Button Text="📂 Open File"
+                    Command="{Binding LoadFromFileCommand}"
+                    BackgroundColor="{StaticResource Secondary}"
+                    TextColor="White" />
+            <Button Text="💡 Example"
+                    Command="{Binding LoadExampleCommand}"
+                    BackgroundColor="{StaticResource Secondary}"
+                    TextColor="White" />
+            <Button Text="🗑 Clear"
+                    Command="{Binding ClearAllCommand}"
+                    BackgroundColor="{StaticResource Tertiary}"
+                    TextColor="White" />
+        </HorizontalStackLayout>
+
+        <!-- ── Main split pane ──────────────────────────────────────────── -->
+        <Grid Grid.Row="1"
+              ColumnDefinitions="*,8,*"
+              RowDefinitions="Auto,*,Auto,*">
+
+            <!-- INPUT panel header -->
+            <Label Grid.Row="0" Grid.Column="0"
+                   Text="INPUT"
+                   Style="{StaticResource PanelHeader}" />
+
+            <!-- INPUT primary (HTML / XAML / WinForms C#) -->
+            <ScrollView Grid.Row="1" Grid.Column="0">
+                <Editor x:Name="InputEditor"
+                        Text="{Binding PrimaryInput}"
+                        FontFamily="Monospace"
+                        FontSize="13"
+                        BackgroundColor="{StaticResource EditorBackground}"
+                        TextColor="{StaticResource EditorForeground}"
+                        AutoSize="TextChanges"
+                        MinimumHeightRequest="200" />
+            </ScrollView>
+
+            <!-- INPUT secondary label -->
+            <Label Grid.Row="2" Grid.Column="0"
+                   Text="CSS / C# Code-behind (optional)"
+                   Style="{StaticResource SubPanelHeader}" />
+
+            <!-- INPUT secondary (CSS / C# code-behind) -->
+            <ScrollView Grid.Row="3" Grid.Column="0">
+                <Editor Text="{Binding SecondaryInput}"
+                        FontFamily="Monospace"
+                        FontSize="13"
+                        BackgroundColor="{StaticResource EditorBackground}"
+                        TextColor="{StaticResource EditorForeground}"
+                        AutoSize="TextChanges"
+                        MinimumHeightRequest="100" />
+            </ScrollView>
+
+            <!-- Splitter -->
+            <BoxView Grid.Row="0" Grid.RowSpan="4" Grid.Column="1"
+                     Color="{StaticResource Gray300}" />
+
+            <!-- OUTPUT panel header + buttons -->
+            <HorizontalStackLayout Grid.Row="0" Grid.Column="2"
+                                   Spacing="8" Padding="8,4">
+                <Label Text="OUTPUT"
+                       Style="{StaticResource PanelHeader}"
+                       VerticalOptions="Center" />
+                <Button Text="📋 Copy"
+                        Command="{Binding CopyOutputCommand}"
+                        Style="{StaticResource SmallButton}" />
+                <Button Text="💾 Export"
+                        Command="{Binding ExportFilesCommand}"
+                        Style="{StaticResource SmallButton}" />
+            </HorizontalStackLayout>
+
+            <!-- OUTPUT code viewer -->
+            <ScrollView Grid.Row="1" Grid.RowSpan="3" Grid.Column="2">
+                <Editor Text="{Binding AllOutputFiles}"
+                        IsReadOnly="True"
+                        FontFamily="Monospace"
+                        FontSize="13"
+                        BackgroundColor="{StaticResource EditorBackground}"
+                        TextColor="{StaticResource EditorForeground}"
+                        AutoSize="TextChanges"
+                        MinimumHeightRequest="400" />
+            </ScrollView>
+        </Grid>
+
+        <!-- ── Status bar ───────────────────────────────────────────────── -->
+        <Grid Grid.Row="2"
+              ColumnDefinitions="*,Auto"
+              Padding="12,4"
+              BackgroundColor="{StaticResource Gray100}">
+
+            <VerticalStackLayout Grid.Column="0">
+                <Label Text="{Binding StatusMessage}"
+                       TextColor="{StaticResource Gray600}"
+                       FontSize="12" />
+                <Label Text="{Binding GitHubImportStatus}"
+                       TextColor="{StaticResource Gray500}"
+                       FontSize="11"
+                       IsVisible="{Binding GitHubImportStatus, Converter={StaticResource StringNotEmptyConverter}}" />
+                <Label Text="{Binding ErrorMessage}"
+                       TextColor="Red"
+                       FontSize="11"
+                       IsVisible="{Binding HasErrors}" />
+            </VerticalStackLayout>
+
+            <!-- Convert button -->
+            <Button Grid.Column="1"
+                    Text="▶ Convert"
+                    Command="{Binding ConvertCommand}"
+                    IsEnabled="{Binding IsBusy, Converter={StaticResource InvertBoolConverter}}"
+                    BackgroundColor="{StaticResource Primary}"
+                    TextColor="White"
+                    FontAttributes="Bold"
+                    WidthRequest="140"
+                    HeightRequest="44" />
+        </Grid>
+
+    </Grid>
+</ContentPage>
